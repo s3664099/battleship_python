@@ -70,6 +70,14 @@ class Board:
 
 			self.grid[ship_x][ship_y] = code
 			self.used_spots.append((ship_x,ship_y))
+			self.used_spots.append((ship_x+1,ship_y+1))
+			self.used_spots.append((ship_x+1,ship_y))
+			self.used_spots.append((ship_x+1,ship_y-1))
+			self.used_spots.append((ship_x-1,ship_y+1))
+			self.used_spots.append((ship_x-1,ship_y))
+			self.used_spots.append((ship_x-1,ship_y-1))
+			self.used_spots.append((ship_x,ship_y+1))
+			self.used_spots.append((ship_x,ship_y-1))
 
 			if angle == 0:
 				ship_y += 1
