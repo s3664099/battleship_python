@@ -1,10 +1,27 @@
-#build a grid of 10x10
-#Populate the grid with the ships
+# Ships
 #	- Destroyer 2 squares
 #	- submarine 3 squares
 #	- cruiser 3 squares
 #	- battleship 4 squares
 #	- aircraft carrier 4 squares
+
+#Add comments to the code
+#Create separate file that adds ships to board
+#Add check so that if there is no space for the ship, to try the other angle (unlikely)
+#Create an object that holds each of the ships and place them in the list
+#Make the code that adds the co-ordinates a bit more efficient
+
+#Add the code where the players fight each other - have computer vs computer
+
+#Algorithm
+# - Select Random spot
+# - Remove spot from list of spots
+# - If miss, try again
+# - If hit - creates a new list of immediate co-ordinates
+# - Next if missed try another
+# - If hit - remove sides, and only before and after.
+# - If ship sank, remove all co-ordinates around ship from spots
+# - If not, try again
 
 import board
 
