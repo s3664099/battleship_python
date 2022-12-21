@@ -5,10 +5,9 @@
 #	- battleship 4 squares
 #	- aircraft carrier 4 squares
 
-#Add comments to the code
+#Move Display functions to a separate file to support MVC patter
 #Create separate file that adds ships to board
 #Add check so that if there is no space for the ship, to try the other angle (unlikely)
-#Create an object that holds each of the ships and place them in the list
 #Make the code that adds the co-ordinates a bit more efficient
 
 #Add the code where the players fight each other - have computer vs computer
@@ -25,6 +24,7 @@
 
 import board
 
+#Creates the lines to provide the top and bottom edges to the board - MOVE TO VIEW
 def create_line(lines):
 
 	for x in range(12):
@@ -32,6 +32,7 @@ def create_line(lines):
 
 	return lines
 
+#Displayes the lines - MOVE TO VIEW
 def display_line(line, user, spaces,x):
 
 	for y in range(10):
@@ -41,6 +42,7 @@ def display_line(line, user, spaces,x):
 
 	return line
 
+#Displays the grid, side by side, for the computer and the Player - MOVE TO VIEW
 def display_grid(rows,player,computer):
 
 	lines = ""
@@ -59,12 +61,15 @@ def display_grid(rows,player,computer):
 		print(line)
 	print(lines)
 
+#Creates the board for the player and the computer
 player = board.Board("Player")
 computer = board.Board("Computer")
 
+#Adds the ships to the board
 player.add_ships()
 computer.add_ships()
 
+#Displays the boards
 display_grid(10,player.get_grid(),computer.get_grid())
 
 
