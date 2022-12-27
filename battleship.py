@@ -19,6 +19,8 @@
 
 import board
 import display_board
+import action
+import time
 
 #Creates the board for the player and the computer
 player = board.Board("Player")
@@ -30,3 +32,10 @@ computer.add_ships()
 
 #Displays the boards
 display_board.display_grid(10,player.get_grid(),computer.get_grid())
+
+for x in range(20):
+
+	action.fire(player,computer)
+	action.fire(computer,player)
+	time.sleep(2)
+	display_board.display_grid(10,player.get_spots_hit(),computer.get_spots_hit())

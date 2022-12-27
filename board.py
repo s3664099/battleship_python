@@ -12,6 +12,9 @@ class Board:
 	object_name = ""
 	ships = []
 	grid_size = 9
+	potential_shots = []
+	ship_shots = []
+	hit_ship = False
 
 	def __init__(self,object_name):
 
@@ -21,6 +24,9 @@ class Board:
 		self.used_spots = []
 		self.ships = []
 		self.grid_size = 9
+		self.potential_shots = []
+		self.ship_shots = []
+		self.hit_ship = False
 
 		#Builds the grid
 		for i in range(self.rows):
@@ -31,10 +37,34 @@ class Board:
 
 		self.spots_hit = copy.deepcopy(self.grid)
 
+		for x in range(self.rows):
+			for y in range(self.rows):
+				self.potential_shots.append((x,y))
+
 	#Returns the Grid
 	def get_grid(self):
 
 		return self.grid
+
+	def get_spots_hit(self):
+
+		return self.spots_hit
+
+	def get_potential_shots(self):
+
+		return self.potential_shots
+
+	def set_ship_shots(self,ship_shots):
+		self.shop_shots = ship_shots
+
+	def set_hit_ship(self,hit_ship):
+		self.hit_ship = hit_ship
+
+	def get_ship_shots(self):
+		return self.ship_shots
+
+	def get_hit_ship(self):
+		return self.hit_ship
 
 	#Adds the ships to the board
 	def add_ships(self):
