@@ -8,6 +8,7 @@ def fire(defender,attacker):
 	spots_hit = defender.get_spots_hit()
 	hit_ship = defender.get_hit_ship()
 	hit_result = 0
+	potential_shots = attacker.get_potential_shots()
 
 	if hit_ship == 1:
 		hit = defender.get_hit()
@@ -21,18 +22,24 @@ def fire(defender,attacker):
 
 		shot = get_next_shot(select_shot,hit)
 
+		if potential_shots.count(shot)>0:
+			potential_shots.remove(shot)
+
 	elif hit_ship == 2:
 		ship_shots = defender.get_ship_shots()
 		hit = defender.get_hit()
 		shot = defender.get_movement()
-
 		shot = get_next_shot(shot,hit)
 
+		if potential_shots.count(shot)>0:
+			potential_shots.remove(shot)
+
 	else:
-		potential_shots = attacker.get_potential_shots()
 		shot = randint(0,len(potential_shots)-1)
 		shot = potential_shots[shot]
-		potential_shots.remove(shot)
+
+		if potential_shots.count(shot)>0:
+			potential_shots.remove(shot)
 
 	result = "0"
 
@@ -43,7 +50,7 @@ def fire(defender,attacker):
 
 		result = "X"
 		defender.set_hit(shot)
-		hit_result = defender.check_which_ship(shot)
+		hit_result = defender.check_which_ship (shot,potential_shots)
 
 		if hit_ship == 0:
 			defender.set_hit_ship(1)
@@ -65,8 +72,6 @@ def fire(defender,attacker):
 			defender.set_ship_shots(ship_shots)
 
 	else:
-		if hit_ship == 1:
-			print(defender.get_movement())
 		if hit_ship == 2:
 			defender.set_hit_ship(1)
 			defender.set_hit(defender.get_original_hit())
@@ -89,4 +94,3 @@ def get_next_shot(selected,hit):
 		shot = (hit[0],hit[1]-1)
 
 	return shot
-

@@ -73,38 +73,6 @@ class ship:
 
 		return sunk
 
-	#Flags that the ship has been hit
-	def hit_ship(self):
-
-		hit = False
-		x = 0
-
-		#Cycles through the hit sections
-		while not hit:
-
-			#If a section is undamaged it is marked at hit
-			if self.hit_sections[x] == 0:
-
-				self.hit_sections[x] = 1
-			
-			x += 1
-
-		undamage = False
-		destroyed = False
-		
-		#Cycles through again to see if the ship is still afloat
-		while not undamage:
-
-			#If there is an undamaged part, it flags an undamaged section
-			if self.hit_sections[x] == 0:
-				undamage = True
-
-		#No undamaged section found
-		if not undamage:
-			destroyed = True
-
-		return destroyed
-
 	#Sinks the ship
 	def sink_ship(self):
 

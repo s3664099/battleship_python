@@ -5,7 +5,12 @@
 #	- battleship 4 squares
 #	- aircraft carrier 4 squares
 
-#Add the code where the players fight each other - have computer vs computer
+#Add comments, and tidy code (if possible)
+#An extra line is being taken when the ships are placed
+#Have a check where if the value is invalid, then it is removed, and try again
+#Add option for players (1 and 2) to play
+#Convert to Java
+#Convert to C++
 
 #Algorithm
 # - Select Random spot
@@ -43,4 +48,3 @@ for x in range(20):
 	action.fire(computer,player)
 	print()
 	display_board.display_grid(10,player.get_spots_hit(),computer.get_spots_hit())
-	

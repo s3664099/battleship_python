@@ -168,7 +168,7 @@ class Board:
 
 		return self.grid
 
-	def check_which_ship(self,co_ords):
+	def check_which_ship(self,co_ords,attackers_shots):
 
 		ship_to_remove = None
 		won = 0
@@ -181,12 +181,23 @@ class Board:
 				won = 1
 
 		if ship_to_remove != None:
+
+			sections_to_mark = ship_to_remove.get_hit_sections()
+			self.mark_grid(sections_to_mark,attackers_shots)
 			self.ships.remove(ship_to_remove)
 
 		if len(self.ships) == 0:
 			won = 2
 
 		return won
+
+	def mark_grid(self,sections_to_mark,attackers_shots):
+
+		for x in sections_to_mark:
+			if attackers_shots.count(x)>0:
+				self.grid[x[0]][x[1]] = "0"
+				self.spots_hit[x[0]][x[1]] = "0"
+				attackers_shots.remove(x)
 
 	def get_hit_sections(self,co_ords):
 
