@@ -35,7 +35,12 @@ display_board.display_grid(10,player.get_grid(),computer.get_grid())
 
 for x in range(20):
 
-	action.fire(player,computer)
-	action.fire(computer,player)
 	time.sleep(2)
+	print()
+	print("Computer")
+	action.fire(player,computer)
+	print("Player")
+	action.fire(computer,player)
+	print()
 	display_board.display_grid(10,player.get_spots_hit(),computer.get_spots_hit())
+	

@@ -7,12 +7,15 @@ class ship:
 	name = ""
 	sunk = False
 	hit_sections = []
+	co_ordinates = []
 
 	def __init__(self, length,letter, name):
 
 		self.length = length
 		self.letter = letter
 		self.name = name
+		self.co_ordinates = []
+		self.hit_sections = []
 
 		#Fills the sections of the ship with 0, indicating it has not been hit
 		for x in self.hit_sections:
@@ -37,6 +40,38 @@ class ship:
 	def get_sunk(self):
 
 		return self.sunk
+
+	def add_coordinate(self,co_ords,inc_x,inc_y,length):
+
+		for x in range(length):
+			self.co_ordinates.append(co_ords)
+			co_ords = (co_ords[0]+inc_x,co_ords[1]+inc_y)
+
+	def add_hit_sections(self,co_ords):
+
+		self.hit_sections.append(co_ords)
+
+	def get_hit_sections(self):
+		return self.hit_sections
+
+	def check_coordinates(self,co_ords):
+
+		sunk = False
+		found = False
+
+		for x in self.co_ordinates:
+			if co_ords == x:
+				found = True
+
+		if found:
+			self.co_ordinates.remove(co_ords)
+			print("Hit the {}".format(self.name))
+			print(len(self.co_ordinates))
+
+		if len(self.co_ordinates) == 0:
+			sunk = True
+
+		return sunk
 
 	#Flags that the ship has been hit
 	def hit_ship(self):

@@ -14,7 +14,10 @@ class Board:
 	grid_size = 9
 	potential_shots = []
 	ship_shots = []
-	hit_ship = False
+	hit_ship = 0
+	hit = (0,0)
+	original_hit = (0,0)
+	movement = 0
 
 	def __init__(self,object_name):
 
@@ -26,7 +29,10 @@ class Board:
 		self.grid_size = 9
 		self.potential_shots = []
 		self.ship_shots = []
-		self.hit_ship = False
+		self.hit_ship = 0
+		self.hit = (0,0)
+		self.movement = 0
+		self.original_hit = (0,0)
 
 		#Builds the grid
 		for i in range(self.rows):
@@ -55,7 +61,7 @@ class Board:
 		return self.potential_shots
 
 	def set_ship_shots(self,ship_shots):
-		self.shop_shots = ship_shots
+		self.ship_shots = ship_shots
 
 	def set_hit_ship(self,hit_ship):
 		self.hit_ship = hit_ship
@@ -65,6 +71,24 @@ class Board:
 
 	def get_hit_ship(self):
 		return self.hit_ship
+
+	def get_hit(self):
+		return self.hit
+
+	def set_hit(self,hit):
+		self.hit = hit
+
+	def set_movement(self,movement):
+		self.movement = movement
+
+	def get_movement(self):
+		return self.movement
+
+	def set_original_hit(self,hit):
+		self.original_hit = hit
+
+	def get_original_hit(self):
+		return self.original_hit
 
 	#Adds the ships to the board
 	def add_ships(self):
@@ -81,11 +105,14 @@ class Board:
 		#Goes through each of the ships and adds them to the board
 		for x in self.ships:
 			print("{} {} {}".format(x.get_name(),x.get_length(),x.get_letter()))
-			self.grid = self.add_ship(x.get_length(),x.get_letter())
+			self.grid = self.add_ship(x)
 			code += 1
 
 	#Adds the ship
-	def add_ship(self,ship,code):
+	def add_ship(self,ship):
+
+		length = ship.get_length()
+		code = ship.get_letter()
 
 		#Creates a list to hold the potential positions the ships can take
 		potential_place = []
@@ -95,23 +122,23 @@ class Board:
 
 		#If the angle is verticle
 		ship_len_x = 0
-		ship_len_y = ship
+		ship_len_y = length
 		pos_x = 0
 		pos_y = 1
 
 		#If the angle is horizontal
 		if angle == 1:
-			ship_len_x = ship
+			ship_len_x = length
 			ship_len_y = 0
 			pos_x = 1
 			pos_y = 0
 
 		#Generates a list of potential places
-		potential_place = self.select_places(ship_len_x,ship_len_y,potential_place,ship,angle)
+		potential_place = self.select_places(ship_len_x,ship_len_y,potential_place,length,angle)
 
 		#Checks other angle if no potential position
 		if (len(potential_place)<1):
-			potential_place = self.select_places(ship_len_y,ship_len_x,potential_place,ship)
+			potential_place = self.select_places(ship_len_y,ship_len_x,potential_place,length,angle)
 		
 		#A random position is selected for the ship
 		ship_location = randint(0,len(potential_place)-1)
@@ -119,22 +146,58 @@ class Board:
 		ship_y = potential_place[ship_location][1]
 
 		#places the position of the ship on the board
-		for x in range(ship):
-			self.fill_grid(ship_x,ship_y,pos_x,pos_y,ship,code)
+		for x in range(length):
+			self.fill_grid(ship_x,ship_y,pos_x,pos_y,length,code)
+
+		ship.add_coordinate((ship_x,ship_y),pos_x,pos_y,length)
 
 		#Marks the occupied positions on the board
 		if angle == 1:
 
 			for x in range(-1,2):
-				for y in range(ship_x-1,ship_x+ship+2):
+				for y in range(ship_x-1,ship_x+length+2):
 					self.used_spots.append((y,ship_y+x))
+					ship.add_hit_sections((y,ship_y+x))
+
 		else:
 
 			for x in range(-1,2):
-				for y in range(ship_y-1,ship_y+ship+2):
+				for y in range(ship_y-1,ship_y+length+2):
 					self.used_spots.append((ship_x+x,y))
+					ship.add_hit_sections((ship_x+x,y))
 
 		return self.grid
+
+	def check_which_ship(self,co_ords):
+
+		ship_to_remove = None
+		won = 0
+
+		for x in self.ships:
+
+			if x.check_coordinates(co_ords):
+				ship_to_remove = x
+				print(x.sink_ship())
+				won = 1
+
+		if ship_to_remove != None:
+			self.ships.remove(ship_to_remove)
+
+		if len(self.ships) == 0:
+			won = 2
+
+		return won
+
+	def get_hit_sections(self,co_ords):
+
+		sections_to_remove = []
+
+		for x in self.ships:
+			if x.get_hit_sections().count(co_ords)>1:
+				sections_to_remove = x.get_hit_sections
+				print(x.get_name())
+
+		return sections_to_remove
 
 	#Fills the grid with the ships
 	def fill_grid(self,x_pos,y_pos,x_inc,y_inc,ship,code):
