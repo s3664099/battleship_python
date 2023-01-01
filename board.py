@@ -41,8 +41,10 @@ class Board:
 				col.append(".")
 			self.grid.append(col)
 
+		#Copys the grid so that the ships are hidden
 		self.spots_hit = copy.deepcopy(self.grid)
 
+		#Generates a list of places shots can be made (Currently every space on the board)
 		for x in range(self.rows):
 			for y in range(self.rows):
 				self.potential_shots.append((x,y))
@@ -52,10 +54,12 @@ class Board:
 
 		return self.grid
 
+	#Returns the Grid without the ships
 	def get_spots_hit(self):
 
 		return self.spots_hit
 
+	#Returns the co-ordinates where shots can be made
 	def get_potential_shots(self):
 
 		return self.potential_shots
@@ -63,27 +67,30 @@ class Board:
 	def set_ship_shots(self,ship_shots):
 		self.ship_shots = ship_shots
 
-	def set_hit_ship(self,hit_ship):
-		self.hit_ship = hit_ship
-
 	def get_ship_shots(self):
 		return self.ship_shots
+
+	#Sets and retrieves the variable as to whether a ship has been hit
+	def set_hit_ship(self,hit_ship):
+		self.hit_ship = hit_ship
 
 	def get_hit_ship(self):
 		return self.hit_ship
 
-	def get_hit(self):
-		return self.hit
-
 	def set_hit(self,hit):
 		self.hit = hit
 
+	def get_hit(self):
+		return self.hit
+
+	#Sets the movement the computer will go in if a ship has been hit more than once
 	def set_movement(self,movement):
 		self.movement = movement
 
 	def get_movement(self):
 		return self.movement
 
+	#Sets the co-ordinate of the original spot the ship was hit
 	def set_original_hit(self,hit):
 		self.original_hit = hit
 
@@ -168,11 +175,14 @@ class Board:
 
 		return self.grid
 
+	#Checks which ship has been destroyed
 	def check_which_ship(self,co_ords,attackers_shots):
 
+		#Sets the ship and win flag
 		ship_to_remove = None
 		won = 0
 
+		#Goes through each of the ships to check if the ship and co-ordinates match
 		for x in self.ships:
 
 			if x.check_coordinates(co_ords):
@@ -180,17 +190,22 @@ class Board:
 				print(x.sink_ship())
 				won = 1
 
+		#Has a ship been found
 		if ship_to_remove != None:
 
+			#Marks off all the co-ordinates on the board that was occupied by the ship
+			#and removes the ship
 			sections_to_mark = ship_to_remove.get_hit_sections()
 			self.mark_grid(sections_to_mark,attackers_shots)
 			self.ships.remove(ship_to_remove)
 
+		#If no ships are left, the win flag is set.
 		if len(self.ships) == 0:
 			won = 2
 
 		return won
 
+	#Marks sea sections on both grids as hit since all the ship sections have been hit
 	def mark_grid(self,sections_to_mark,attackers_shots):
 
 		for x in sections_to_mark:
@@ -199,6 +214,7 @@ class Board:
 				self.spots_hit[x[0]][x[1]] = "0"
 				attackers_shots.remove(x)
 
+	#Finds the ship, and the sections that need to be hit to destroy the ship
 	def get_hit_sections(self,co_ords):
 
 		sections_to_remove = []

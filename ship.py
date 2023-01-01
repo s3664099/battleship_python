@@ -9,6 +9,7 @@ class ship:
 	hit_sections = []
 	co_ordinates = []
 
+	#Sets up the ship
 	def __init__(self, length,letter, name):
 
 		self.length = length
@@ -41,33 +42,40 @@ class ship:
 
 		return self.sunk
 
+	#Adds the co-ordinates of the ship to a list
 	def add_coordinate(self,co_ords,inc_x,inc_y,length):
 
 		for x in range(length):
 			self.co_ordinates.append(co_ords)
 			co_ords = (co_ords[0]+inc_x,co_ords[1]+inc_y)
 
+	#Adds the sections of the ship that has been hit
 	def add_hit_sections(self,co_ords):
 
 		self.hit_sections.append(co_ords)
 
+	#Returns the sections that have been hit
 	def get_hit_sections(self):
 		return self.hit_sections
 
+	#Checks to see if the co-ordinates match the co-ordinates the ship is on.
 	def check_coordinates(self,co_ords):
 
 		sunk = False
 		found = False
 
+		#Checks if the co-ordinates match
 		for x in self.co_ordinates:
 			if co_ords == x:
 				found = True
 
+		#If there is a match, it is noted, and the co-ordinates are removed
 		if found:
 			self.co_ordinates.remove(co_ords)
 			print("Hit the {}".format(self.name))
 			print(len(self.co_ordinates))
 
+		#If there are no co-ordinates left, the ship is marked as sunk
 		if len(self.co_ordinates) == 0:
 			sunk = True
 
