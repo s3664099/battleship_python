@@ -239,7 +239,6 @@ class Board:
 	def fill_grid(self,x_pos,y_pos,x_inc,y_inc,ship,code):
 
 		for x in range(ship):
-			print("{} {}".format(x_pos,y_pos))
 			self.grid[x_pos][y_pos] = code
 
 			x_pos += x_inc

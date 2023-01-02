@@ -22,10 +22,11 @@ def get_number(query,min,max):
 
 def add_ships(user):
 
-	potential_place = []
 	ships = user.get_ships()
 
 	for x in ships:
+
+		potential_place = []
 
 		display_board.display_grid(10,user.get_grid())
 
@@ -53,10 +54,11 @@ def add_ships(user):
 
 		#Generates a list of potential places
 		potential_place = user.select_places(ship_len_x,ship_len_y,potential_place,length,angle)
-		print(potential_place)
+		#print(potential_place)
 
 		allowable = False
 
+		#Asks the player for a position, and checks if it is allowable
 		while not allowable:
 			x_pos = get_number("Enter the x position",0,9)
 			y_pos = get_number("Enter the y position",0,9)
