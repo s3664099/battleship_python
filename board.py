@@ -162,14 +162,14 @@ class Board:
 		if angle == 1:
 
 			for x in range(-1,2):
-				for y in range(ship_x-1,ship_x+length+2):
+				for y in range(ship_x-1,ship_x+length+1):
 					self.used_spots.append((y,ship_y+x))
 					ship.add_hit_sections((y,ship_y+x))
 
 		else:
 
 			for x in range(-1,2):
-				for y in range(ship_y-1,ship_y+length+2):
+				for y in range(ship_y-1,ship_y+length+1):
 					self.used_spots.append((ship_x+x,y))
 					ship.add_hit_sections((ship_x+x,y))
 
