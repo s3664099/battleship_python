@@ -75,7 +75,7 @@ def fire(defender,attacker):
 		#If a ship wasn't hit previously, sets the flag
 		if hit_ship == 0:
 			defender.set_hit_ship(1)
-			ship_shots = [0,1,2,3]
+			ship_shots = check_ship_shots(potential_shots,shot)
 			defender.set_ship_shots(ship_shots)
 
 		#It it has, sets it that it has been hit more than once
@@ -125,3 +125,20 @@ def get_next_shot(selected,hit):
 		shot = (hit[0],hit[1]-1)
 
 	return shot
+
+#Checks to see if the potential shots once the ship is hit haven't already been taken.
+#if they haven't, it adds the potential shot to the list
+def check_ship_shots(potential_shots,shot):
+
+	ship_shots = []
+
+	if potential_shots.count((shot[0]+1,shot[1])) >0:
+		ship_shots.append(0)
+	if potential_shots.count((shot[0]-1,shot[1])) >0:
+		ship_shots.append(1)
+	if potential_shots.count((shot[0],shot[1]+1)) >0:
+		ship_shots.append(2)
+	if potential_shots.count((shot[0],shot[1]-1)) >0:
+		ship_shots.append(3)
+
+	return ship_shots
