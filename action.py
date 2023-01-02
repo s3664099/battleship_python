@@ -103,6 +103,8 @@ def fire(defender,attacker):
 		if hit_ship == 2:
 			defender.set_hit_ship(1)
 			defender.set_hit(defender.get_original_hit())
+		else:
+			print("Shot fired at: {}".format(shot))
 
 	#Updates the grids
 	grid[shot[0]][shot[1]] = result
@@ -111,6 +113,8 @@ def fire(defender,attacker):
 	#Has the ship been sunk
 	if hit_result == 1:
 		defender.set_hit_ship(0)
+
+	return hit_result
 
 #Gest the next shots from when the ship was hit
 def get_next_shot(selected,hit):

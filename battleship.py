@@ -25,16 +25,25 @@ def start_game():
 	#Displays the boards
 	display_board.display_grid(10,player.get_grid(),computer.get_grid())
 
-	#Plays 20 rounds (Change to play until somebody wins)
-	for x in range(20):
+	result = 1
+
+	#plays until somebody wins
+	while result != 2:
 
 		time.sleep(2)
 		print()
 		print("Computer")
-		action.fire(player,computer)
-		print("Player")
-		action.fire(computer,player)
-		print()
+		result = action.fire(player,computer)
+
+		if result != 2:
+			print("Player")
+			result = action.fire(computer,player)
+			print()
+			if result == 2:
+				print("Player has won")
+		else:
+			print("Computer has won")
+
 		display_board.display_grid(10,player.get_spots_hit(),computer.get_spots_hit())
 
 #Passes the current file as a module to the loader
