@@ -11,19 +11,33 @@ import board
 import display_board
 import action
 import time
+import controller
 
 
 def start_game():
+
+	#Asks for the number of players
+	players = controller.get_number("Please enter the number of players (0,1,2)",0,2)
+
 	#Creates the board for the player and the computer
 	player = board.Board("Player")
 	computer = board.Board("Computer")
 
-	#Adds the ships to the board
-	player.add_ships()
-	computer.add_ships()
+	#Checks to see how many players are playing, and will automatically generate boards based on it
+	if (players == 0):
+		player.add_ships()
+		computer.add_ships()
+	elif (players == 1):
+		computer.add_ships()
+		controller.add_ships(player)
+	else:
+		controller.add_ships(player)
+		controller.add_ships(computer)
 
-	#Displays the boards
-	display_board.display_grids(10,player.get_grid(),computer.get_grid())
+	#Displays the boards if there are no players.
+	if players == 0:
+		display_board.display_grids(10,player.get_grid(),computer.get_grid())
+		time.sleep(5)
 
 	result = 1
 

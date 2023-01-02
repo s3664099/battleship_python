@@ -49,6 +49,13 @@ class Board:
 			for y in range(self.rows):
 				self.potential_shots.append((x,y))
 
+		#Builds the Ships
+		self.ships.append(ship.ship(4,'d','battleship'))
+		self.ships.append(ship.ship(4,'e','aircraft carrier'))		
+		self.ships.append(ship.ship(3,'b','submarine'))
+		self.ships.append(ship.ship(3,'c','cruiser'))
+		self.ships.append(ship.ship(2,'a','destroyer'))	
+
 	#Returns the Grid
 	def get_grid(self):
 
@@ -97,15 +104,12 @@ class Board:
 	def get_original_hit(self):
 		return self.original_hit
 
+	#Get returns the ships
+	def get_ships(self):
+		return self.ships
+
 	#Adds the ships to the board
 	def add_ships(self):
-
-		#Builds the Ships
-		self.ships.append(ship.ship(4,'d','battleship'))
-		self.ships.append(ship.ship(4,'e','aircraft carrier'))		
-		self.ships.append(ship.ship(3,'b','submarine'))
-		self.ships.append(ship.ship(3,'c','cruiser'))
-		self.ships.append(ship.ship(2,'a','destroyer'))		
 
 		code = 0
 
@@ -151,6 +155,11 @@ class Board:
 		ship_location = randint(0,len(potential_place)-1)
 		ship_x = potential_place[ship_location][0]
 		ship_y = potential_place[ship_location][1]
+
+		return self.place_ship(ship,ship_x,ship_y,pos_x,pos_y,length,code,angle)
+
+	#Places the ship on the board
+	def place_ship(self,ship,ship_x,ship_y,pos_x,pos_y,length,code,angle):
 
 		#places the position of the ship on the board
 		for x in range(length):
@@ -230,6 +239,7 @@ class Board:
 	def fill_grid(self,x_pos,y_pos,x_inc,y_inc,ship,code):
 
 		for x in range(ship):
+			print("{} {}".format(x_pos,y_pos))
 			self.grid[x_pos][y_pos] = code
 
 			x_pos += x_inc

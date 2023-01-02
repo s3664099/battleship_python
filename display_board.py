@@ -28,6 +28,25 @@ def create_numbers(spaces):
 
 	return numbers
 
+#Displays the grid for a single user
+def display_grid(rows,user):
+
+	lines = ""
+	spaces = "             "
+
+	lines = create_line(spaces)
+	number_line = "{}".format(create_numbers(spaces))
+
+	print(number_line)
+	print(lines)
+
+	for x in range(10):
+
+		line = "{}{}|".format(spaces,x)
+		line = "{}".format(display_line(line,user,spaces,x))
+		print(line)
+
+	print(lines)
 
 #Displays the grid, side by side, for the computer and the Player - MOVE TO VIEW
 def display_grids(rows,player,computer):
