@@ -23,7 +23,7 @@ def start_game():
 	computer.add_ships()
 
 	#Displays the boards
-	display_board.display_grid(10,player.get_grid(),computer.get_grid())
+	display_board.display_grids(10,player.get_grid(),computer.get_grid())
 
 	result = 1
 
@@ -44,7 +44,7 @@ def start_game():
 		else:
 			print("Computer has won")
 
-		display_board.display_grid(10,player.get_spots_hit(),computer.get_spots_hit())
+		display_board.display_grids(10,player.get_spots_hit(),computer.get_spots_hit())
 
 #Passes the current file as a module to the loader
 if __name__ == '__main__':
