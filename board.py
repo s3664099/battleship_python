@@ -56,6 +56,12 @@ class Board:
 		self.ships.append(ship.ship(3,'c','cruiser'))
 		self.ships.append(ship.ship(2,'a','destroyer'))	
 
+	def get_name(self):
+		return self.object_name
+
+	def set_name(self,name):
+		self.object_name = name
+
 	#Returns the Grid
 	def get_grid(self):
 

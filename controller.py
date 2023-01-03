@@ -20,9 +20,17 @@ def get_number(query,min,max):
 
 	return int(response)
 
-def add_ships(user):
+def add_ships(user, num):
 
 	ships = user.get_ships()
+
+	#Sets up the players name
+	user_name = input("Select a name: ")
+
+	if len(user_name) <1:
+		user_name = "Nameless Player {}".format(num)
+
+	user.set_name(user_name)
 
 	for x in ships:
 
@@ -71,6 +79,29 @@ def add_ships(user):
 		user.place_ship(x,x_pos,y_pos,pos_x,pos_y,length,code,angle)
 
 	input("Press enter to continue")
+
+def fire_shot(defender,attacker):
+
+	x_coord = get_number("Select Column",0,9)
+	y_coord = get_number("Select Row",0,9)
+	spots_hit = defender.get_spots_hit()
+	grid = defender.get_grid()
+
+	if grid[x_coord][y_coord] == "0":
+		pass
+	elif grid[x_coord][y_coord] == "X":
+		pass
+	elif grid[x_coord][y_coord] == ".":
+		grid[x_coord][y_coord] = "0"
+		spots_hit[x_coord][y_coord] = "0"
+	else:
+		grid[x_coord][y_coord] = "X"
+		spots_hit[x_coord][y_coord] = "X"
+
+	return 0
+
+
+
 
 
 

@@ -72,8 +72,7 @@ class ship:
 		#If there is a match, it is noted, and the co-ordinates are removed
 		if found:
 			self.co_ordinates.remove(co_ords)
-			print("Hit the {}".format(self.name))
-			print(len(self.co_ordinates))
+			print("You hit the {}".format(self.name))
 
 		#If there are no co-ordinates left, the ship is marked as sunk
 		if len(self.co_ordinates) == 0:
@@ -86,5 +85,5 @@ class ship:
 
 		self.sunk = True
 
-		return "You sunk my {}".format(self.name)
+		return "You sunk the {}".format(self.name)
 

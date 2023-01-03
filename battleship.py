@@ -12,53 +12,112 @@ import display_board
 import action
 import time
 import controller
+import random
 
 
 def start_game():
+
+	turns = 0
 
 	#Asks for the number of players
 	players = controller.get_number("Please enter the number of players (0,1,2)",0,2)
 
 	#Creates the board for the player and the computer
-	player = board.Board("Player")
-	computer = board.Board("Computer")
+	opponent01 = board.Board("Deep Thought")
+	opponent02 = board.Board("Marvin the Paranoid Android")
 
 	#Checks to see how many players are playing, and will automatically generate boards based on it
 	if (players == 0):
-		player.add_ships()
-		computer.add_ships()
+		opponent01.add_ships()
+		opponent02.add_ships()
 	elif (players == 1):
-		computer.add_ships()
-		controller.add_ships(player)
+		opponent02.add_ships()
+		controller.add_ships(opponent01,1)
 	else:
-		controller.add_ships(player)
-		controller.add_ships(computer)
+		controller.add_ships(opponent01,1)
+		controller.add_ships(opponent02,2)
 
 	#Displays the boards if there are no players.
 	if players == 0:
-		display_board.display_grids(10,player.get_grid(),computer.get_grid())
+		display_board.display_grids(10,opponent01.get_grid(),opponent02.get_grid())
 		time.sleep(5)
 
 	result = 1
 
+	#Determines who goes first
+	go_first = random.randint(0,1)
+
+	first_shot = opponent01
+	second_shot = opponent02
+	manual_player = 2
+
+	if (go_first == 1):
+		first_shot = opponent02
+		second_shot = opponent01
+		manual_player = 1
+
+	if players == 2:
+		manual_player = 2
+
+	print("{} goes first.".format(first_shot.get_name()))
+
 	#plays until somebody wins
 	while result != 2:
 
+		turns += 1
+		player_shot = False
+
+		if players == 2:
+			player_shot = True
+		elif manual_player == 1:
+			player_shot = True
+
 		time.sleep(2)
-		print()
-		print("Computer")
-		result = action.fire(player,computer)
+
+		result = turn(second_shot,first_shot,player_shot)
 
 		if result != 2:
-			print("Player")
-			result = action.fire(computer,player)
-			print()
-			if result == 2:
-				print("Player has won")
-		else:
-			print("Computer has won")
 
-		display_board.display_grids(10,player.get_spots_hit(),computer.get_spots_hit())
+			if players == 2:
+				display_board.display_grids(10,first_shot.get_grid(),second_shot.get_spots_hit())
+
+			if manual_player == 1:
+				player_shot = False
+			else:
+				player_shot = True
+
+			result = turn(first_shot,second_shot,player_shot)
+
+		#Sees how many players, and displays the appropriate boards
+		if players == 0:
+			display_board.display_grids(10,first_shot.get_spots_hit(),second_shot.get_spots_hit())
+		elif players == 1:
+			display_board.display_grids(10,first_shot.get_grid(),second_shot.get_spots_hit())
+		else:
+			display_board.display_grids(10,first_shot.get_spots_hit(),second_shot.get_grid())
+
+		if result == 2:
+			print()
+			print("Game over in {} turns".format(turns))
+
+#player takes a turn
+def turn(defender,attacker,player_shot):
+
+	print("{}'s Shot".format(attacker.get_name()))
+
+	if player_shot:
+		result = controller.fire_shot(defender,attacker)
+	else:
+		result = action.fire(defender,attacker)
+	print()
+
+	#Checks for a win condition
+	if result == 2:
+		print("{} has won".format(attacker.get_name()))
+		print()
+
+	return result
+
 
 #Passes the current file as a module to the loader
 if __name__ == '__main__':
