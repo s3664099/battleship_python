@@ -33,6 +33,7 @@ class Board:
 		self.hit = (0,0)
 		self.movement = 0
 		self.original_hit = (0,0)
+		self.manual_player = False
 
 		#Builds the grid
 		for i in range(self.rows):
@@ -113,6 +114,13 @@ class Board:
 	#Get returns the ships
 	def get_ships(self):
 		return self.ships
+
+	#Sets the player as manual
+	def set_manual_player(self):
+		self.manual_player = True
+
+	def get_manual_player(self):
+		return self.manual_player
 
 	#Adds the ships to the board
 	def add_ships(self):

@@ -49,15 +49,10 @@ def start_game():
 
 	first_shot = opponent01
 	second_shot = opponent02
-	manual_player = 2
 
 	if (go_first == 1):
 		first_shot = opponent02
 		second_shot = opponent01
-		manual_player = 1
-
-	if players == 2:
-		manual_player = 2
 
 	print("{} goes first.".format(first_shot.get_name()))
 
@@ -65,28 +60,17 @@ def start_game():
 	while result != 2:
 
 		turns += 1
-		player_shot = False
-
-		if players == 2:
-			player_shot = True
-		elif manual_player == 1:
-			player_shot = True
 
 		time.sleep(2)
 
-		result = turn(second_shot,first_shot,player_shot)
+		result = turn(second_shot,first_shot)
 
 		if result != 2:
 
 			if players == 2:
 				display_board.display_grids(10,first_shot.get_grid(),second_shot.get_spots_hit())
 
-			if manual_player == 1:
-				player_shot = False
-			else:
-				player_shot = True
-
-			result = turn(first_shot,second_shot,player_shot)
+			result = turn(first_shot,second_shot)
 
 		#Sees how many players, and displays the appropriate boards
 		if players == 0:
@@ -101,11 +85,11 @@ def start_game():
 			print("Game over in {} turns".format(turns))
 
 #player takes a turn
-def turn(defender,attacker,player_shot):
+def turn(defender,attacker):
 
 	print("{}'s Shot".format(attacker.get_name()))
 
-	if player_shot:
+	if attacker.get_manual_player():
 		result = controller.fire_shot(defender,attacker)
 	else:
 		result = action.fire(defender,attacker)

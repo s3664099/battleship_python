@@ -23,6 +23,7 @@ def get_number(query,min,max):
 def add_ships(user, num):
 
 	ships = user.get_ships()
+	user.set_manual_player()
 
 	#Sets up the players name
 	user_name = input("Select a name: ")
@@ -48,10 +49,7 @@ def add_ships(user, num):
 		pos_x = 0
 		pos_y = 1
 
-		print("Please enter the angle")
-		print("0) Across")
-		print("1) Down")
-		angle = get_number("",0,1)
+		angle = get_angle()
 
 		#If the angle is horizontal
 		if angle == 1:
@@ -62,44 +60,61 @@ def add_ships(user, num):
 
 		#Generates a list of potential places
 		potential_place = user.select_places(ship_len_x,ship_len_y,potential_place,length,angle)
-		#print(potential_place)
 
 		allowable = False
 
 		#Asks the player for a position, and checks if it is allowable
 		while not allowable:
-			x_pos = get_number("Enter the x position",0,9)
-			y_pos = get_number("Enter the y position",0,9)
+			y_pos = get_number("Enter the x position",0,9)
+			x_pos = get_number("Enter the y position",0,9)
 
 			if potential_place.count((x_pos,y_pos)) > 0:
 				allowable = True
 			else:
-				print("You cannot place the {} there".format(x.get_name()))
+				print("You cannot place the {} there. Allowable places:".format(x.get_name()))
+				print(potential_place)
 
 		user.place_ship(x,x_pos,y_pos,pos_x,pos_y,length,code,angle)
 
 	input("Press enter to continue")
 
+#Function to retrieve player's shot manually
 def fire_shot(defender,attacker):
 
-	x_coord = get_number("Select Column",0,9)
-	y_coord = get_number("Select Row",0,9)
-	spots_hit = defender.get_spots_hit()
-	grid = defender.get_grid()
+	already_hit = False
 
-	if grid[x_coord][y_coord] == "0":
-		pass
-	elif grid[x_coord][y_coord] == "X":
-		pass
-	elif grid[x_coord][y_coord] == ".":
-		grid[x_coord][y_coord] = "0"
-		spots_hit[x_coord][y_coord] = "0"
-	else:
-		grid[x_coord][y_coord] = "X"
-		spots_hit[x_coord][y_coord] = "X"
+	#Loop to prevent player for firing at the same spot more than once
+	while not already_hit:
+
+		#Gets Player's hit
+		x_coord = get_number("Select Row",0,9)
+		y_coord = get_number("Select Column",0,9)
+		spots_hit = defender.get_spots_hit()
+		grid = defender.get_grid()
+
+		#Checks if the player has already fired there
+		if grid[x_coord][y_coord] == "0":
+			print("You have already fired a shot here")
+		elif grid[x_coord][y_coord] == "X":
+			print("You have already fired a shot here")
+		elif grid[x_coord][y_coord] == ".":
+			grid[x_coord][y_coord] = "0"
+			spots_hit[x_coord][y_coord] = "0"
+			already_hit = True
+		else:
+			grid[x_coord][y_coord] = "X"
+			spots_hit[x_coord][y_coord] = "X"
+			already_hit = True
 
 	return 0
 
+#Function for the player to get an angle
+def get_angle():
+
+		print("Please enter the angle")
+		print("0) Across")
+		print("1) Down")
+		return get_number("",0,1)
 
 
 
