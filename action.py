@@ -70,7 +70,7 @@ def fire(defender,attacker):
 
 		#Sets the flag that a ship has been hit and checks if it has been sunk
 		defender.set_hit(shot)
-		hit_result = defender.check_which_ship (shot,potential_shots)
+		hit_result = defender.check_which_ship(shot,potential_shots)
 
 		#If a ship wasn't hit previously, sets the flag
 		if hit_ship == 0:

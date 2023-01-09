@@ -202,16 +202,12 @@ class Board:
 	def check_which_ship(self,co_ords,attackers_shots):
 
 		#Sets the ship and win flag
-		ship_to_remove = None
+		ship_to_remove = self.check_ship_hit(co_ords)
 		won = 0
 
-		#Goes through each of the ships to check if the ship and co-ordinates match
-		for x in self.ships:
-
-			if x.check_coordinates(co_ords):
-				ship_to_remove = x
-				print(x.sink_ship())
-				won = 1
+		#Checks if a ship was sunk
+		if (ship_to_remove != None):
+			won = 1
 
 		#Has a ship been found
 		if ship_to_remove != None:
@@ -220,13 +216,41 @@ class Board:
 			#and removes the ship
 			sections_to_mark = ship_to_remove.get_hit_sections()
 			self.mark_grid(sections_to_mark,attackers_shots)
-			self.ships.remove(ship_to_remove)
+			self.remove_ship(ship_to_remove)
 
 		#If no ships are left, the win flag is set.
-		if len(self.ships) == 0:
+		if self.check_remaining_ships():
 			won = 2
 
 		return won
+
+	#Goes through each of the ships to check if the ship and co-ordinates match
+	def check_ship_hit(self,co_ords):
+
+		ship_to_remove = None
+
+		for x in self.ships:
+
+			if x.check_coordinates(co_ords):
+				ship_to_remove = x
+				print(x.sink_ship())
+
+		return ship_to_remove
+
+	#Removes the ship that has been sunk
+	def remove_ship(self,ship_to_remove):
+
+		self.ships.remove(ship_to_remove)
+
+	#Checks if there are any ships left on the board
+	def check_remaining_ships(self):
+
+		no_ships = False
+
+		if len(self.ships) == 0:
+			no_ships = True
+
+		return no_ships
 
 	#Marks sea sections on both grids as hit since all the ship sections have been hit
 	def mark_grid(self,sections_to_mark,attackers_shots):

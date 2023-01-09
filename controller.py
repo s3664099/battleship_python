@@ -83,6 +83,9 @@ def fire_shot(defender,attacker):
 
 	already_hit = False
 
+	#Sets the win flag
+	won = 0
+
 	#Loop to prevent player for firing at the same spot more than once
 	while not already_hit:
 
@@ -106,7 +109,22 @@ def fire_shot(defender,attacker):
 			spots_hit[x_coord][y_coord] = "X"
 			already_hit = True
 
-	return 0
+			#Determines which ship has been hit, and whether it has been sunk
+			ship_sunk = defender.check_ship_hit((x_coord,y_coord))
+
+			#If sunk
+			if ship_sunk != None:
+				won = 1
+
+				#Removes the ship
+				defender.remove_ship(ship_sunk)
+
+				#Checks if there are any ships left on the opponent's board
+				if defender.check_remaining_ships():
+					won = 2
+
+
+	return won
 
 #Function for the player to get an angle
 def get_angle():
