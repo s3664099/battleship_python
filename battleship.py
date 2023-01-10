@@ -14,6 +14,7 @@ import time
 import controller
 import random
 
+board_size = 10
 
 def start_game():
 
@@ -56,6 +57,8 @@ def start_game():
 
 	print("{} goes first.".format(first_shot.get_name()))
 
+	show_grid(board_size,first_shot,second_shot,players)
+
 	#plays until somebody wins
 	while result != 2:
 
@@ -72,17 +75,28 @@ def start_game():
 
 			result = turn(first_shot,second_shot)
 
-		#Sees how many players, and displays the appropriate boards
-		if players == 0:
-			display_board.display_grids(10,first_shot.get_spots_hit(),second_shot.get_spots_hit())
-		elif players == 1:
-			display_board.display_grids(10,first_shot.get_grid(),second_shot.get_spots_hit())
-		else:
-			display_board.display_grids(10,first_shot.get_spots_hit(),second_shot.get_grid())
+		show_grid(board_size,first_shot,second_shot,players)
 
 		if result == 2:
 			print()
 			print("Game over in {} turns".format(turns))
+
+#Displays the board
+def show_grid(board_size,first_shot,second_shot,players):
+
+	#Sees how many players, and displays the appropriate boards
+	if players == 0:
+		display_board.display_grids(board_size,first_shot.get_spots_hit(),second_shot.get_spots_hit())
+	elif players == 1:
+
+		if first_shot.get_manual_player():
+			display_board.display_grids(board_size,first_shot.get_grid(),second_shot.get_spots_hit())
+		else:
+			display_board.display_grids(board_size,first_shot.get_spots_hit(),second_shot.get_grid())
+	else:
+		display_board.display_grids(board_size,first_shot.get_spots_hit(),second_shot.get_grid())
+
+
 
 #player takes a turn
 def turn(defender,attacker):
