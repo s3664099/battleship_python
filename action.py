@@ -72,6 +72,8 @@ def fire(defender,attacker):
 		defender.set_hit(shot)
 		hit_result = defender.check_which_ship(shot,potential_shots)
 
+		print("Hit Result {}".format(hit_result))
+
 		#If a ship wasn't hit previously, sets the flag
 		if hit_ship == 0:
 			defender.set_hit_ship(1)
@@ -111,7 +113,7 @@ def fire(defender,attacker):
 	spots_hit[shot[0]][shot[1]] = result
 
 	#Has the ship been sunk
-	if hit_result == 1:
+	if hit_result == 2:
 		defender.set_hit_ship(0)
 
 	return hit_result

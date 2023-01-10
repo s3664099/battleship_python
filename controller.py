@@ -72,7 +72,13 @@ def add_ships(user, num):
 				allowable = True
 			else:
 				print("You cannot place the {} there. Allowable places:".format(x.get_name()))
-				print(potential_place)
+				list_places = []
+
+				#Turns out the co-ords were the wrong way around, so this switches them
+				for y in potential_place:
+					list_places.append((y[1],y[0]))
+
+				print(list_places)
 
 		user.place_ship(x,x_pos,y_pos,pos_x,pos_y,length,code,angle)
 
@@ -105,6 +111,7 @@ def fire_shot(defender,attacker):
 			spots_hit[x_coord][y_coord] = "0"
 			already_hit = True
 		else:
+			won = 1
 			grid[x_coord][y_coord] = "X"
 			spots_hit[x_coord][y_coord] = "X"
 			already_hit = True
@@ -114,16 +121,14 @@ def fire_shot(defender,attacker):
 
 			#If sunk
 			if ship_sunk != None:
-				won = 1
+				won = 2
 
 				#Removes the ship
 				defender.remove_ship(ship_sunk)
 
 				#Checks if there are any ships left on the opponent's board
 				if defender.check_remaining_ships():
-					won = 2
-
-
+					won = 3
 	return won
 
 #Function for the player to get an angle

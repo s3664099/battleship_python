@@ -203,11 +203,11 @@ class Board:
 
 		#Sets the ship and win flag
 		ship_to_remove = self.check_ship_hit(co_ords)
-		won = 0
+		won = 1
 
 		#Checks if a ship was sunk
 		if (ship_to_remove != None):
-			won = 1
+			won = 2
 
 		#Has a ship been found
 		if ship_to_remove != None:
@@ -220,7 +220,7 @@ class Board:
 
 		#If no ships are left, the win flag is set.
 		if self.check_remaining_ships():
-			won = 2
+			won = 3
 
 		return won
 

@@ -18,6 +18,8 @@ board_size = 10
 
 def start_game():
 
+	skip_turn = False
+
 	turns = 0
 
 	#Asks for the number of players
@@ -66,18 +68,20 @@ def start_game():
 
 		time.sleep(2)
 
-		result = turn(second_shot,first_shot)
+		result,skip_turn = turn(second_shot,first_shot,skip_turn)
 
-		if result != 2:
+		#Checks if two players are playing and the board will need to be displayed every time
+		#A player takes a turn
+		if result != 3:
 
 			if players == 2:
 				display_board.display_grids(10,first_shot.get_grid(),second_shot.get_spots_hit())
 
-			result = turn(first_shot,second_shot)
+			result,skip_turn = turn(first_shot,second_shot,skip_turn)
 
 		show_grid(board_size,first_shot,second_shot,players)
 
-		if result == 2:
+		if result == 3:
 			print()
 			print("Game over in {} turns".format(turns))
 
@@ -96,25 +100,33 @@ def show_grid(board_size,first_shot,second_shot,players):
 	else:
 		display_board.display_grids(board_size,first_shot.get_spots_hit(),second_shot.get_grid())
 
-
-
 #player takes a turn
-def turn(defender,attacker):
+def turn(defender,attacker,skip_turn):
 
-	print("{}'s Shot".format(attacker.get_name()))
+	result = 0
 
-	if attacker.get_manual_player():
-		result = controller.fire_shot(defender,attacker)
-	else:
-		result = action.fire(defender,attacker)
-	print()
+	if skip_turn == False:
+
+		print("{}'s Shot".format(attacker.get_name()))
+
+		#Checks whether a manual player or not, and if not calls the algorithm
+		if attacker.get_manual_player():
+			result = controller.fire_shot(defender,attacker)
+		else:
+			result = action.fire(defender,attacker)
+		print()
+
+	skip_turn = False
+
+	if result != 0:
+		skip_turn = True
 
 	#Checks for a win condition
-	if result == 2:
+	if result == 3:
 		print("{} has won".format(attacker.get_name()))
 		print()
 
-	return result
+	return result,skip_turn
 
 
 #Passes the current file as a module to the loader
