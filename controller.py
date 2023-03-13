@@ -138,6 +138,7 @@ def get_angle():
 		print("0) Across")
 		print("1) Down")
 		return get_number("",0,1)
+		
 
 
 

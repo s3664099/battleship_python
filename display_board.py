@@ -1,5 +1,5 @@
 
-#Creates the lines to provide the top and bottom edges to the board - MOVE TO VIEW
+#Creates the lines to provide the top and bottom edges to the board
 def create_line(lines):
 
 	lines = "{} ".format(lines)
